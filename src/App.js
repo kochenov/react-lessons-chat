@@ -4,6 +4,11 @@ import React, { useState, useEffect } from "react";
 import Message from "./components/message/Message";
 // подключение формы добавления сообщения
 import Form from "./components/form/Form";
+// Список чатов
+import ListChats from "./components/ListChats";
+
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
 
 function App() {
   // Хранение сообщений (Задание 2 п.1)
@@ -15,8 +20,8 @@ function App() {
     setMessage([...messages, newMessage]);
   };
 
-   // Это добавляет ответ робота , с небольшой задержкой
-   useEffect(() => {
+  // Это добавляет ответ робота , с небольшой задержкой
+  useEffect(() => {
     // Проверяю, что есть сообщения
     if (messages.length > 0) {
       // Беру данные последнего сообщения
@@ -36,7 +41,7 @@ function App() {
         setTimeout(() => {
           // Добавляю в общий стейт ответ робота
           setMessage([...messages, robotMsg]);
-          
+
           window.scrollTo(600, document.body.scrollHeight, {
             behavior: "smooth",
           });
@@ -46,16 +51,22 @@ function App() {
   }, [messages]);
 
   return (
-    <div className="App">
-      <header>
-        <div className="App-header">
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid className="left-column" xs={12} sm={4}>
+        <ListChats />
+        </Grid>
+        <Grid xs={12} sm={8} className="right-col">
           {messages.map((message) => (
             <Message message={message} key={message.id} />
           ))}
-        </div>
-      </header>
-      <Form create={createMessage} />
-    </div>
+          
+         <Form create={createMessage} />
+        </Grid>
+         
+      </Grid>
+      
+    </Box>
   );
 }
 
